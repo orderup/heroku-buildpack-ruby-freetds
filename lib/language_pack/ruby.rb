@@ -171,7 +171,7 @@ private
 
     Dir.mktmpdir("ruby_versions-") do |tmpdir|
       Dir.chdir(tmpdir) do
-        @ruby_versions = ["2.1.0", "2.0.0"]
+        @ruby_versions = ["ruby-2.1.0", "ruby-2.0.0"]
       end
     end
 
