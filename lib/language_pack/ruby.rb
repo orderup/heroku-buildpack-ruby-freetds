@@ -171,8 +171,7 @@ private
 
     Dir.mktmpdir("ruby_versions-") do |tmpdir|
       Dir.chdir(tmpdir) do
-        run("curl -O #{VENDOR_URL}/ruby_versions.yml")
-        @ruby_versions = YAML::load_file("ruby_versions.yml")
+        @ruby_versions = ["2.1.0", "2.0.0"]
       end
     end
 
