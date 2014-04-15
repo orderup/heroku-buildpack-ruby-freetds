@@ -164,18 +164,10 @@ private
   end
 
   # list the available valid ruby versions
-  # @note the value is memoized
+  # @note other implementations read this by fetching then loading yaml
   # @return [Array] list of Strings of the ruby versions available
   def ruby_versions
-    return @ruby_versions if @ruby_versions
-
-    Dir.mktmpdir("ruby_versions-") do |tmpdir|
-      Dir.chdir(tmpdir) do
-        @ruby_versions = ["ruby-2.1.0", "ruby-2.0.0"]
-      end
-    end
-
-    @ruby_versions
+    ["ruby-2.1.1", "ruby-2.1.0", "ruby-2.0.0"]
   end
 
   # sets up the environment variables for the build process
