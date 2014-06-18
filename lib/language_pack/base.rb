@@ -142,6 +142,7 @@ private ##################################
   # @param [String] command to be run
   # @return [String] output of stdout and stderr
   def run(command)
+    log(command)
     %x{ #{command} 2>&1 }
   end
 

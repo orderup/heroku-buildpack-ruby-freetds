@@ -113,6 +113,8 @@ private
       @ruby_version = run_stdout("env PATH=#{old_system_path}:#{bundler_path}/bin GEM_PATH=#{bundler_path} bundle platform --ruby").chomp
     end
 
+    log "ruby_version from bundler: #{@ruby_version.inspect}"
+
     if @ruby_version == "No ruby version specified" && ENV['RUBY_VERSION']
       # for backwards compatibility.
       # this will go away in the future
@@ -386,9 +388,9 @@ ERROR
 
         # freetds_dir = "#{tmpdir}/freetds"
         # `mkdir -p #{tmpdir}/freetds`
- 
+
         # `curl https://s3.amazonaws.com/firmhouse/freetds-0.tgz -o - | tar -xz -C #{tmpdir}/freetds -f -`
- 
+
         # freetds_include = File.expand_path("#{freetds_dir}/include")
         # freetds_lib = File.expand_path("#{freetds_dir}/lib")
 
