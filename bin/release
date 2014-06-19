@@ -1,9 +1,9 @@
-#!/usr/bin/env ruby
+#!/bin/sh
 
-$:.unshift File.expand_path("../../lib", __FILE__)
-require "language_pack"
-
-if pack = LanguagePack.detect(ARGV[0], ARGV[1])
-  puts pack.release
-end
-
+cat << EOF
+---
+addons:
+  - heroku-postgresql:dev
+default_process_types:
+  web: bundle exec puma -t 8:8 -p $PORT -e ${RACK_ENV:-development}
+EOF
