@@ -113,7 +113,7 @@ private
       @ruby_version = run_stdout("env PATH=#{old_system_path}:#{bundler_path}/bin GEM_PATH=#{bundler_path} bundle platform --ruby").chomp
     end
 
-    log "ruby_version from bundler: #{@ruby_version.inspect}"
+    Kernel.puts "ruby_version from bundler: #{@ruby_version.inspect}"
 
     if @ruby_version == "No ruby version specified" && ENV['RUBY_VERSION']
       # for backwards compatibility.
@@ -166,10 +166,19 @@ private
   end
 
   # list the available valid ruby versions
-  # @note other implementations read this by fetching then loading yaml
+  # @note the value is memoized
   # @return [Array] list of Strings of the ruby versions available
   def ruby_versions
-    ["ruby-2.1.1", "ruby-2.1.0", "ruby-2.0.0"]
+    return @ruby_versions if @ruby_versions
+
+    Dir.mktmpdir("ruby_versions-") do |tmpdir|
+      Dir.chdir(tmpdir) do
+        run("curl -O #{VENDOR_URL}/ruby_versions.yml")
+        @ruby_versions = YAML::load_file("ruby_versions.yml")
+      end
+    end
+
+    @ruby_versions
   end
 
   # sets up the environment variables for the build process
@@ -199,7 +208,7 @@ private
   # determines if a build ruby is required
   # @return [Boolean] true if a build ruby is required
   def build_ruby?
-    @build_ruby ||= !ruby_version_rbx? && !ruby_version_jruby? && !%w{ruby-1.9.3 ruby-2.0.0}.include?(ruby_version)
+    @build_ruby ||= !ruby_version_rbx? && !ruby_version_jruby? && !%w{ruby-1.9.3 ruby-2.0.0 ruby-2.1.2}.include?(ruby_version)
   end
 
   # install the vendored ruby
