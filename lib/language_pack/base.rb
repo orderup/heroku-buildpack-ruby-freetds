@@ -142,7 +142,7 @@ private ##################################
   # @param [String] command to be run
   # @return [String] output of stdout and stderr
   def run(command)
-    log(command)
+    Kernel.puts command
     %x{ #{command} 2>&1 }
   end
 
@@ -150,6 +150,7 @@ private ##################################
   # @param [String] command to be run
   # @return [String] output of stdout
   def run_stdout(command)
+    Kernel.puts command
     %x{ #{command} 2>/dev/null }
   end
 
